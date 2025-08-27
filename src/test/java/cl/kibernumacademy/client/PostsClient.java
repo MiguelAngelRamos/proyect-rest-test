@@ -23,13 +23,13 @@ public class PostsClient {
   // Obtener el detalle de un posts por su id
 
   public Response getPost(int id) {
-    return given()
-        .spec(Specs.request())
-        .when()
-        .get("/posts/{id}", id)
-        .then()
-        .spec(Specs.ok200())
-        .extract().response();
+    return given() // Iniciar la construccion de la petición
+        .spec(Specs.request()) // Aplica la configuración baseUri, headers, content-type
+        .when() // Indicamos que a continuación vamos ejecutar metodos http (get,post,put,delete)
+        .get("/posts/{id}", id) // Realiza un GET hacia la ruta /posts https://jsonplaceholder.typicode.com/posts
+        .then() // Inicia el proceso para validaciones sobre response que nos otorga el server (jsonplaceholder)
+        .spec(Specs.ok200()) // Esperamos el codigo 200
+        .extract().response(); // Extrae y devuelve la response para que nuestros test la puedan utilizar
   }
 
   // Crear un Posts

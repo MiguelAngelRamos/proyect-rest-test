@@ -64,8 +64,36 @@ public class PostCrudTest {
     Assertions.assertThat(json.getString("title")).isEqualTo(title);
     Assertions.assertThat(json.getString("body")).isEqualTo(body);
     Assertions.assertThat(json.getInt("userId")).isEqualTo(USER_ID);
-
   }
+
+  @Test
+  @DisplayName("PUT /posts/{id} - actualiza un post")
+  void updatedPost_ok() {
+
+    int idToUpdate = 1;
+
+    String title = "Aprendiendo testing";
+    String body = "Testeando el api jsonplaceholder";
+    Post updatedPost = new Post(USER_ID, title, body);
+  
+    Response response = client.updatedPost(idToUpdate, updatedPost);
+    JsonPath json = response.jsonPath();
+ 
+    Assertions.assertThat(json.getString("title")).isEqualTo(title);
+    Assertions.assertThat(json.getString("body")).isEqualTo(body);
+    Assertions.assertThat(json.getInt("userId")).isEqualTo(USER_ID);
+  }
+
+
+  @Test
+  @DisplayName("DELETE /posts/{id} - elimina un post")
+  void deletePost_ok() {
+    int idToDelete = (createdId > 0) ? createdId: 1;
+    Response response = client.deletePost(idToDelete);
+    int status = response.statusCode();
+    Assertions.assertThat(status).isIn(200, 204);
+  }
+
 
 
 

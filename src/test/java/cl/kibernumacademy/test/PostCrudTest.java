@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import cl.kibernumacademy.client.PostsClient;
+import cl.kibernumacademy.model.Post;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 
@@ -36,4 +37,37 @@ public class PostCrudTest {
     Assertions.assertThat(posts).as("La lista de posts no debe ser vacia").isNotEmpty();
     Assertions.assertThat(response.getHeader("Content-Type")).contains("application/json");
   }
+
+  @Test
+  @DisplayName("GET /posts/{id} - obtiene un post existente")
+  void getPost_ok() {
+    Response response = client.getPost(1);
+    JsonPath json = response.jsonPath();
+    Assertions.assertThat(json.getInt("id")).isEqualTo(1);
+    Assertions.assertThat(json.getString("title")).isNotBlank();
+
+  }
+
+
+  @Test
+  @DisplayName("POST /posts - crear un post")
+  void createPost_created() {
+
+    String title = "Aprendiendo Testing con Java";
+    String body = "Hoy nos toca aprender acerca de rest assured en bootcamp de automatizacion";
+    Post payload = new Post(USER_ID, title, body);
+  
+    Response response = client.createPost(payload);
+    JsonPath json = response.jsonPath();
+    createdId = json.getInt("id");
+    Assertions.assertThat(createdId).isNotNull();
+    Assertions.assertThat(json.getString("title")).isEqualTo(title);
+    Assertions.assertThat(json.getString("body")).isEqualTo(body);
+    Assertions.assertThat(json.getInt("userId")).isEqualTo(USER_ID);
+
+  }
+
+
+
+  
 }

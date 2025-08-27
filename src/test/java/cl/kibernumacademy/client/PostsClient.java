@@ -2,6 +2,8 @@ package cl.kibernumacademy.client;
 
 import cl.kibernumacademy.config.Specs;
 import cl.kibernumacademy.model.Post;
+import io.restassured.response.Response;
+import static io.restassured.RestAssured.given;
 
 // Clase que agrupa métodos para llamar a endpoints relacionados con "posts"
 public class PostsClient {
@@ -12,7 +14,8 @@ public class PostsClient {
         .spec(Specs.request())
         .when()
         .get("/posts")
-        .then(Specs.ok200())
+        .then()
+        .spec(Specs.ok200())
         .extract().response();
 
   }
@@ -24,7 +27,8 @@ public class PostsClient {
         .spec(Specs.request())
         .when()
         .get("/posts/{id}", id)
-        .then(Specs.ok200())
+        .then()
+        .spec(Specs.ok200())
         .extract().response();
   }
 
@@ -36,7 +40,8 @@ public class PostsClient {
         .body(payload)
         .when()
         .post("/posts")
-        .then(Specs.created201())
+        .then()
+        .spec(Specs.created201())
         .extract().response();
   }
 
@@ -48,7 +53,8 @@ public class PostsClient {
         .body(payload)
         .when()
         .put("/posts/{id}", id)
-        .then(Specs.ok200())
+        .then()
+        .spec(Specs.ok200())
         .extract().response();
   }
 
@@ -59,7 +65,8 @@ public class PostsClient {
         .spec(Specs.request())
         .when()
         .delete("/posts/{id}", id)
-        .then(Specs.ok200())
+        .then()
+        .spec(Specs.ok200())
         .extract().response();
   }
 }

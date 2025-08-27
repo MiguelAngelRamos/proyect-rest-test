@@ -1,5 +1,6 @@
 package cl.kibernumacademy.client;
 
+// Clase que agrupa métodos para llamar a endpoints relacionados con "posts"
 public class PostsClient {
   
   // Listar todos los posts
